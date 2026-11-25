@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>测试你的恋爱人格 · 38题趣味心理测试</title>
+<style>
+/* ============ 基础与变量 ============ */
+:root{
+  --rose:#e2546e;
+  --rose-deep:#c23a58;
+  --rose-soft:#fbe9ec;
+  --gold:#d99a4e;
+  --ink:#3a2a30;
+  --ink-soft:#7a656d;
+  --cream:#fdf4ef;
+  --card:#ffffff;
+  --line:#f0d9dd;
+  --shadow:0 18px 50px rgba(194,58,88,.12);
+  --radius:22px;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{height:100%;}
+body{
+  font-family:"PingFang SC","Microsoft YaHei","Noto Sans SC","Hiragino Sans GB",sans-serif;
+  color:var(--ink);
+  background:var(--cream);
+  background-image:
+    radial-gradient(circle at 12% 8%, rgba(226,84,110,.14), transparent 42%),
+    radial-gradient(circle at 88% 90%, rgba(217,154,78,.14), transparent 45%),
+    radial-gradient(circle at 80% 12%, rgba(226,84,110,.08), transparent 35%);
+  background-attachment:fixed;
+  min-height:100%;
+  line-height:1.7;
+}
+h1,h2,h3,.serif{font-family:"Noto Serif SC","Songti SC","SimSun",serif;}
+.wrap{max-width:760px;margin:0 auto;padding:32px 20px 60px;}
+
+/* ============ 视图切换 ============ */
+.view{display:none;animation:fadeUp .5s ease both;}
+.view.active{display:block;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
+
+/* ============ 通用按钮 ============ */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  border:none;cursor:pointer;font-family:inherit;font-size:16px;font-weight:600;
+  border-radius:999px;padding:15px 38px;transition:all .25s ease;
+}
+.btn-primary{
+  color:#fff;background:linear-gradient(135deg,var(--rose),var(--rose-deep));
+  box-shadow:0 10px 26px rgba(194,58,88,.32);
+}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 14px 32px rgba(194,58,88,.4);}
+.btn-primary:active{transform:translateY(0);}
+.btn-ghost{
+  color:var(--rose-deep);background:var(--rose-soft);
+}
+.btn-ghost:hover{background:var(--rose-soft);transform:translateY(-1px);}
+.btn:disabled{opacity:.45;cursor:not-allowed;transform:none!important;box-shadow:none!important;}
+
+/* ============ 欢迎页 ============ */
+.hero{text-align:center;padding:46px 10px 26px;}
+.hero .badge{
+  display:inline-block;font-size:13px;letter-spacing:2px;color:var(--rose-deep);
+  background:var(--rose-soft);border-radius:999px;padding:6px 18px;margin-bottom:22px;font-weight:600;
+}
+.hero h1{font-size:42px;font-weight:900;letter-spacing:2px;margin-bottom:14px;}
+.hero h1 em{font-style:normal;color:var(--rose-deep);position:relative;}
+.hero .sub{color:var(--ink-soft);font-size:16px;max-width:520px;margin:0 auto;}
+.intro-card{
+  background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);
+  padding:34px 32px;margin-top:30px;
+}
+.intro-card h3{font-size:19px;margin-bottom:16px;display:flex;align-items:center;gap:10px;}
+.intro-card ul{list-style:none;display:grid;gap:14px;}
+.intro-card li{display:flex;gap:14px;align-items:flex-start;color:var(--ink-soft);font-size:15px;}
+.intro-card li .ico{
+  flex:none;width:34px;height:34px;border-radius:10px;background:var(--rose-soft);
+  display:flex;align-items:center;justify-content:center;font-size:17px;
+}
+.intro-card li b{color:var(--ink);font-weight:700;}
+.meta-row{display:flex;gap:12px;justify-content:center;margin:28px 0 8px;flex-wrap:wrap;}
+.meta-pill{
+  background:rgba(255,255,255,.8);border:1px solid var(--line);
+  border-radius:14px;padding:12px 20px;font-size:14px;color:var(--ink-soft);
+}
+.meta-pill b{color:var(--rose-deep);font-size:18px;font-weight:800;display:block;}
+.start-zone{text-align:center;margin-top:30px;}
+.disclaimer{text-align:center;font-size:12px;color:#b09aa1;margin-top:18px;}
+
+/* ============ 答题页 ============ */
+.quiz-head{margin-bottom:22px;}
+.progress-meta{display:flex;justify-content:space-between;align-items:center;font-size:14px;color:var(--ink-soft);margin-bottom:10px;}
+.progress-meta b{color:var(--rose-deep);font-size:16px;}
+.progress-bar{height:10px;background:var(--line);border-radius:999px;overflow:hidden;}
+.progress-fill{height:100%;width:0;background:linear-gradient(90deg,var(--rose),var(--gold));border-radius:999px;transition:width .35s ease;}
+.q-card{
+  background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);
+  padding:38px 34px 30px;
+}
+.q-num{font-size:13px;color:var(--gold);font-weight:700;letter-spacing:2px;margin-bottom:12px;}
+.q-text{font-size:21px;font-weight:700;line-height:1.6;margin-bottom:30px;font-family:"Noto Serif SC","Songti SC",serif;}
+.opts{display:grid;gap:12px;}
+.opt{
+  display:flex;align-items:center;gap:14px;padding:15px 18px;
+  border:1.5px solid var(--line);border-radius:14px;cursor:pointer;
+  font-size:15px;color:var(--ink-soft);transition:all .2s ease;background:#fff;
+}
+.opt:hover{border-color:var(--rose);background:var(--rose-soft);}
+.opt .dot{
+  flex:none;width:22px;height:22px;border-radius:50%;border:2px solid #d9b8be;
+  display:flex;align-items:center;justify-content:center;transition:all .2s;
+}
+.opt.selected{border-color:var(--rose);background:var(--rose-soft);color:var(--ink);font-weight:600;}
+.opt.selected .dot{border-color:var(--rose);background:var(--rose);}
+.opt.selected .dot::after{content:"";width:8px;height:8px;border-radius:50%;background:#fff;}
+.quiz-foot{display:flex;justify-content:space-between;margin-top:24px;gap:12px;}
+.hint-tip{font-size:13px;color:var(--gold);text-align:center;margin-top:14px;min-height:20px;font-weight:600;}
+
+/* ============ 分析加载 ============ */
+.loading-zone{text-align:center;padding:90px 20px;}
+.loader{
+  width:64px;height:64px;border:5px solid var(--rose-soft);border-top-color:var(--rose);
+  border-radius:50%;margin:0 auto 30px;animation:spin 1s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg);}}
+.loading-zone p{color:var(--ink-soft);font-size:16px;}
+.loading-zone .load-word{font-weight:700;color:var(--rose-deep);font-size:18px;margin-top:6px;min-height:26px;}
+
+/* ============ 结果页 ============ */
+.result-hero{
+  background:linear-gradient(160deg,#fff, #fff7f4);
+  border-radius:var(--radius);box-shadow:var(--shadow);
+  padding:42px 32px 36px;text-align:center;position:relative;overflow:hidden;
+}
+.result-hero::before{
+  content:"";position:absolute;top:-70px;right:-70px;width:200px;height:200px;
+  background:radial-gradient(circle,rgba(226,84,110,.16),transparent 70%);
+}
+.result-emoji{font-size:66px;line-height:1;margin-bottom:14px;}
+.result-hero .kicker{font-size:13px;letter-spacing:3px;color:var(--gold);font-weight:700;}
+.result-name{font-size:34px;font-weight:900;margin:8px 0 6px;letter-spacing:1px;}
+.result-slogan{color:var(--rose-deep);font-size:16px;font-weight:600;margin-bottom:18px;}
+.tag-row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;}
+.tag{
+  font-size:13px;padding:5px 14px;border-radius:999px;
+  background:var(--rose-soft);color:var(--rose-deep);font-weight:600;
+}
+.tag.gold{background:#faf0df;color:#a87433;}
+.pct-line{margin-top:20px;font-size:13px;color:var(--ink-soft);}
+.pct-line b{color:var(--rose-deep);font-size:17px;font-weight:800;}
+
+.section-card{
+  background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);
+  padding:30px 30px;margin-top:22px;
+}
+.section-card h3{
+  font-size:18px;font-weight:800;margin-bottom:18px;
+  display:flex;align-items:center;gap:10px;
+}
+.section-card h3::before{
+  content:"";width:5px;height:20px;border-radius:3px;background:linear-gradient(var(--rose),var(--gold));
+}
+.trait-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
+.trait-chip{
+  background:var(--cream);border:1px solid var(--line);border-radius:12px;
+  padding:13px 16px;font-size:14px;font-weight:600;text-align:center;
+}
+.love-text{color:var(--ink-soft);font-size:15px;}
+.dual-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.dual-box{border-radius:14px;padding:18px 18px;}
+.dual-box.good{background:#f3f9f1;border:1px solid #d6e8d0;}
+.dual-box.bad{background:#fdf3ee;border:1px solid #f3dccb;}
+.dual-box h4{font-size:15px;font-weight:800;margin-bottom:10px;}
+.dual-box.good h4{color:#4a7c3c;}
+.dual-box.bad h4{color:#b5653a;}
+.dual-box ul{list-style:none;display:grid;gap:8px;font-size:13.5px;color:var(--ink-soft);}
+.dual-box li::before{content:"· ";font-weight:900;}
+.match-list{display:grid;gap:10px;}
+.match-item{display:flex;gap:12px;align-items:flex-start;font-size:14.5px;color:var(--ink-soft);}
+.match-item .m-ico{flex:none;font-size:18px;}
+.match-item b{color:var(--ink);}
+.match-item.warn b{color:#b5653a;}
+.advice-box{
+  background:linear-gradient(135deg,var(--rose-soft),#fff6ea);
+  border-radius:14px;padding:20px 22px;font-size:15px;color:var(--ink);
+}
+.advice-box b{color:var(--rose-deep);}
+
+/* 雷达图与分数条 */
+.chart-wrap{display:flex;justify-content:center;margin-bottom:26px;}
+#radar{max-width:100%;}
+.score-row{margin-bottom:16px;}
+.score-row:last-child{margin-bottom:0;}
+.score-top{display:flex;justify-content:space-between;font-size:14px;margin-bottom:6px;}
+.score-top .level{color:var(--gold);font-weight:700;}
+.score-track{height:9px;background:var(--line);border-radius:999px;overflow:hidden;}
+.score-fill{height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,var(--rose),var(--gold));transition:width .9s cubic-bezier(.22,1,.36,1);}
+
+.result-actions{display:flex;gap:14px;justify-content:center;margin-top:30px;flex-wrap:wrap;}
+
+/* ============ 响应式 ============ */
+@media (max-width:600px){
+  .wrap{padding:20px 14px 44px;}
+  .hero{padding:30px 4px 18px;}
+  .hero h1{font-size:31px;}
+  .q-card{padding:28px 20px 24px;}
+  .q-text{font-size:18px;}
+  .opt{padding:13px 14px;font-size:14px;}
+  .result-hero{padding:34px 20px 28px;}
+  .result-name{font-size:27px;}
+  .section-card{padding:24px 20px;}
+  .trait-grid{grid-template-columns:1fr 1fr;gap:10px;}
+  .dual-grid{grid-template-columns:1fr;}
+  .btn{padding:13px 28px;font-size:15px;}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- ===================== 视图：欢迎页 ===================== -->
+<section class="view active" id="view-start">
+  <div class="hero">
+    <span class="badge">趣味心理学测试</span>
+    <h1>测试你的<em>恋爱人格</em></h1>
+    <p class="sub">你在亲密关系里究竟是哪种生物？是热烈的飞蛾、清醒的孤狼，还是嘴硬心软的刺猬？38 道题，照见你爱情里最真实的模样。</p>
+  </div>
+
+  <div class="intro-card">
+    <h3>📖 测试说明</h3>
+    <ul>
+      <li><span class="ico">🪞</span><span><b>凭第一直觉作答。</b>没有标准答案，也没有好坏对错，越真实，结果越接近你。</span></li>
+      <li><span class="ico">💭</span><span>题目描述的是<b>恋爱关系中的你</b>，请代入真实的相处状态，而不是理想中的自己。</span></li>
+      <li><span class="ico">🔁</span><span>答题过程中可<b>随时返回上一题修改</b>，答完所有题目即可生成专属人格报告。</span></li>
+      <li><span class="ico">📊</span><span>报告包含四维倾向雷达、人格原型、恋爱表现、适配类型与成长建议。</span></li>
+    </ul>
+  </div>
+
+  <div class="meta-row">
+    <div class="meta-pill"><b>38</b>道题目</div>
+    <div class="meta-pill"><b>约 5</b>分钟</div>
+    <div class="meta-pill"><b>8</b>种人格</div>
+  </div>
+
+  <div class="start-zone">
+    <button class="btn btn-primary" onclick="startQuiz()">开始测试 →</button>
+    <p class="disclaimer">本测试为趣味娱乐性质，灵感源于依恋理论，不构成专业心理诊断。</p>
+  </div>
+</section>
+
+<!-- ===================== 视图：答题页 ===================== -->
+<section class="view" id="view-quiz">
+  <div class="quiz-head">
+    <div class="progress-meta">
+      <span>第 <b id="cur-num">1</b> / 38 题</span>
+      <span id="answered-count">已答 0 题</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-num" id="q-num">QUESTION 01</div>
+    <div class="q-text" id="q-text"></div>
+    <div class="opts" id="opts"></div>
+  </div>
+
+  <div class="quiz-foot">
+    <button class="btn btn-ghost" id="btn-prev" onclick="prevQuestion()">← 上一题</button>
+    <button class="btn btn-primary" id="btn-next" onclick="nextQuestion()">下一题 →</button>
+  </div>
+  <div class="hint-tip" id="hint-tip"></div>
+</section>
+
+<!-- ===================== 视图：分析加载 ===================== -->
+<section class="view" id="view-loading">
+  <div class="loading-zone">
+    <div class="loader"></div>
+    <p>正在深度分析你的恋爱模式…</p>
+    <div class="load-word" id="load-word"></div>
+  </div>
+</section>
+
+<!-- ===================== 视图：结果页 ===================== -->
+<section class="view" id="view-result">
+  <div class="result-hero">
+    <div class="result-emoji" id="r-emoji"></div>
+    <div class="kicker">你的恋爱人格是</div>
+    <div class="result-name" id="r-name"></div>
+    <div class="result-slogan" id="r-slogan"></div>
+    <div class="tag-row" id="r-tags"></div>
+    <div class="pct-line">该人格约占人群的 <b id="r-pct"></b></div>
+  </div>
+
+  <div class="section-card">
+    <h3>📡 四维倾向雷达</h3>
+    <div class="chart-wrap"><canvas id="radar" width="380" height="340"></canvas></div>
+    <div id="score-bars"></div>
+  </div>
+
+  <div class="section-card">
+    <h3>✨ 核心特质</h3>
+    <div class="trait-grid" id="r-traits"></div>
+  </div>
+
+  <div class="section-card">
+    <h3>💘 恋爱中的你</h3>
+    <p class="love-text" id="r-love"></p>
+  </div>
+
+  <div class="section-card">
+    <h3>⚖️ 优势与暗礁</h3>
+    <div class="dual-grid">
+      <div class="dual-box good">
+        <h4>✓ 你的光芒</h4>
+        <ul id="r-pros"></ul>
+      </div>
+      <div class="dual-box bad">
+        <h4>⚠ 小心暗礁</h4>
+        <ul id="r-cons"></ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <h3>🔗 适配与磨合</h3>
+    <div class="match-list" id="r-match"></div>
+  </div>
+
+  <div class="section-card">
+    <h3>🌱 给你的悄悄话</h3>
+    <div class="advice-box" id="r-advice"></div>
+  </div>
+
+  <div class="result-actions">
+    <button class="btn btn-primary" onclick="restart()">🔄 重新测试</button>
+    <button class="btn btn-ghost" onclick="window.print()">🖨 保存 / 打印报告</button>
+  </div>
+</section>
+
+</div>
+
+<script>
+/* ============================================================
+   题库：dim 维度（A焦虑 B回避 E感性 D主导），reverse 为反向计分题
+   ============================================================ */
+const QUESTIONS = [
+  {t:"对方回复消息变慢，我会忍不住想是不是自己哪里做错了。", dim:"A", reverse:false},
+  {t:"心动比合适更重要，没感觉的人条件再好也没用。", dim:"E", reverse:false},
+  {t:"对方过度黏人时，我的第一反应是想逃。", dim:"B", reverse:false},
+  {t:"约会去哪里、吃什么，通常由我来拍板。", dim:"D", reverse:false},
+  {t:"看到对方和异性聊得开心，我心里会拉响警报。", dim:"A", reverse:false},
+  {t:"我不习惯在恋人面前暴露自己的脆弱。", dim:"B", reverse:false},
+  {t:"我做恋爱决定时，更多听从内心的声音，而不是利弊清单。", dim:"E", reverse:false},
+  {t:"我经常担心对方其实没有我爱他那么爱我。", dim:"A", reverse:false},
+  {t:"关系出现问题时，我习惯主动牵头解决。", dim:"D", reverse:false},
+  {t:"哪怕在热恋中，我也需要保留一块完全属于自己的领地。", dim:"B", reverse:false},
+  {t:"一个浪漫的瞬间，能让我反复回味很久。", dim:"E", reverse:false},
+  {t:"对方一旦冷淡，我就容易脑补出一整场分手大戏。", dim:"A", reverse:false},
+  {t:"我更希望感情的节奏和方向掌握在自己手里。", dim:"D", reverse:false},
+  {t:"对方追问我的内心感受时，我会感到莫名的压力。", dim:"B", reverse:false},
+  {t:"我会因为一首歌、一场雨、一个眼神，就突然很想对方。", dim:"E", reverse:false},
+  {t:"我需要反复确认“你爱不爱我”，才能安心。", dim:"A", reverse:false},
+  {t:"我对“每天报备行程”这种事天然反感。", dim:"B", reverse:false},
+  {t:"我不太能接受对方替我做重大决定。", dim:"D", reverse:false},
+  {t:"爱上一个人时，理性常常会自动靠边站。", dim:"E", reverse:false},
+  {t:"关系里一点点不确定感，都能让我整夜睡不好。", dim:"A", reverse:false},
+  {t:"关系一旦变得太亲密，我反而会感到不自在。", dim:"B", reverse:false},
+  {t:"我相信真正的爱情里，有些事本就不需要讲道理。", dim:"E", reverse:false},
+  {t:"我常常因为对方没有秒回而感到坐立难安。", dim:"A", reverse:false},
+  {t:"在两个人的相处中，我往往是拿主意的那个人。", dim:"D", reverse:false},
+  {t:"我倾向于自己消化情绪，而不是向恋人倾诉。", dim:"B", reverse:false},
+  {t:"开始一段关系前，我会认真评估现实条件和未来规划。", dim:"E", reverse:true},
+  {t:"即使对方忙起来一整天没联系，我也能安心过自己的生活。", dim:"A", reverse:true},
+  {t:"我享受和恋人亲密无间、什么都分享的状态。", dim:"B", reverse:true},
+  {t:"我更享受对方安排好一切、我跟着走的轻松感。", dim:"D", reverse:true},
+  {t:"吵架时我更关注问题本身，而不是谁的情绪更委屈。", dim:"E", reverse:true},
+  {t:"我相信感情不需要时刻证明，彼此心里有数就好。", dim:"A", reverse:true},
+  {t:"依偎、撒娇、说情话这些事，我做起来很自然。", dim:"B", reverse:true},
+  {t:"再喜欢一个人，我也不会让自己彻底失去判断。", dim:"E", reverse:true},
+  {t:"做决定时我习惯先问问对方的想法，很少坚持己见。", dim:"D", reverse:true},
+  {t:"面对关系中的小摩擦，我很少上升到“他是不是不爱我了”。", dim:"A", reverse:true},
+  {t:"我愿意把最柔软的一面，放心地交给对方。", dim:"B", reverse:true},
+  {t:"我认为长久的感情靠的是经营与契合，而非激情。", dim:"E", reverse:true},
+  {t:"比起主导关系，我更喜欢顺其自然、彼此迁就。", dim:"D", reverse:true}
+];
+
+const OPTIONS = ["非常不同意","比较不同意","中立","比较同意","非常同意"];
+
+/* ============================================================
+   8 种人格结果
+   key：S安全 X焦虑 H回避 K恐惧 + R理性 E感性
+   ============================================================ */
+const RESULTS = {
+  SR:{
+    emoji:"🪨", name:"沉稳磐石", slogan:"温柔而有边界，深情却不糊涂", pct:"12%",
+    traits:["情绪稳定","边界清晰","就事论事","长期主义"],
+    love:"你是关系里的“定海神针”。你相信爱，但不迷信爱。你能坦然表达需要，也能尊重对方的空间；发生矛盾时，你习惯先处理问题、再处理情绪。对你而言，好的爱情是两个成年人清醒地选择彼此，而不是一场互相拯救的冒险。",
+    pros:["稳定可靠，让人安心","沟通高效，不翻旧账","承诺一旦给出便认真兑现"],
+    cons:["偶尔显得不够“上头”","理性过头时少了点心跳","容易让浪漫型伴侣觉得平淡"],
+    match:[
+      {ico:"💞", good:true, text:"<b>最佳适配：暖阳向日葵</b>——你的沉稳配上她的温度，安稳又不失甜。"},
+      {ico:"🛡", good:true, text:"<b>治愈加成：刺猬恋人</b>——你的稳定，能让她慢慢卸下尖刺。"},
+      {ico:"⚡", good:false, text:"<b>磨合警告：炽烈飞蛾</b>——对方的情绪浓度，会让你感到疲惫与消耗。"}
+    ],
+    advice:"偶尔允许自己“不理性”一次。临时起意的约会、没道理的偏爱，这些“失控”的瞬间，往往正是亲密感生长的地方。"
+  },
+  SE:{
+    emoji:"🌻", name:"暖阳向日葵", slogan:"认真相信爱，也认真去爱", pct:"15%",
+    traits:["真诚热烈","共情力强","乐于表达","享受亲密"],
+    love:"你天生具备爱人的能力——大方表达、全心投入，却不把爱当成救命稻草。你享受两个人的甜蜜，也容得下彼此的差异。你会记住纪念日、制造小惊喜，也会在对方低谷时稳稳接住他。和你谈恋爱，是一件温暖又舒展的事。",
+    pros:["情绪价值拉满","亲密能力强，不端着","关系氛围总是轻松愉快"],
+    cons:["付出时容易忘了自己","遇到索取型人格会被消耗","难过时倾向于默默忍让"],
+    match:[
+      {ico:"💞", good:true, text:"<b>最佳适配：沉稳磐石</b>——他给你根基，你给他温度。"},
+      {ico:"🧊", good:true, text:"<b>治愈加成：冰山孤狼</b>——你的温暖持续而不逼迫，恰好能融化他。"},
+      {ico:"🔍", good:false, text:"<b>磨合警告：警觉侦探</b>——你的松弛会被他误读为“不够在乎”。"}
+    ],
+    advice:"爱人先爱己。把慷慨洒向别人的阳光，也留几缕照向自己——你不需要靠持续付出来换取被爱。"
+  },
+  XR:{
+    emoji:"🔍", name:"警觉侦探", slogan:"在所有细节里，寻找被爱的证据", pct:"10%",
+    traits:["观察敏锐","逻辑缜密","高度警觉","内心戏丰富"],
+    love:"你习惯用分析对抗不安——回复时间、用词变化、社交动态，都在你的侦查范围。理性是你的铠甲，可铠甲下面是一个怕被丢下的小孩。你不会无理取闹，而是把焦虑包装成一条条“合理的质疑”，直到对方喘不过气，你自己也精疲力竭。",
+    pros:["洞察力强，能察觉隐患","重视承诺与忠诚","逻辑清晰，很少真正失控"],
+    cons:["过度解读，试探成瘾","容易把伴侣越推越远","把“破案”当成了安全感"],
+    match:[
+      {ico:"💞", good:true, text:"<b>最佳适配：沉稳磐石</b>——他的稳定与坦荡，能一点点安抚你的警觉。"},
+      {ico:"☀️", good:true, text:"<b>温暖加成：暖阳向日葵</b>——直白的爱意能减少你的猜测空间。"},
+      {ico:"🧊", good:false, text:"<b>磨合警告：冰山孤狼</b>——他的沉默与回避，会直接引爆你的不安。"}
+    ],
+    advice:"你要的答案不在聊天记录里，而在一次坦诚的对话里。学会直接说出“我需要你”，比反复破案有效得多。"
+  },
+  XE:{
+    emoji:"🔥", name:"炽烈飞蛾", slogan:"爱就爱到极致，痛也痛得彻底", pct:"13%",
+    traits:["浓烈炽热","情绪外放","患得患失","奋不顾身"],
+    love:"你的爱像一场大火——燃烧自己，也照亮对方。你渴望极致的亲密与回应：对方的一个微笑就是你的晴天，一句冷淡就能让你坠入深渊。你容易在关系里失去自我，把全部喜怒哀乐系在一个人身上，越爱越怕，越怕越抓。",
+    pros:["深情专注，浪漫动人","敢爱敢恨，不玩套路","能给对方最强烈的被爱感"],
+    cons:["情绪如过山车","依附感强，容易失衡","抓得太紧反而让人窒息"],
+    match:[
+      {ico:"💞", good:true, text:"<b>最佳适配：暖阳向日葵</b>——同等浓度的热情，才能回应你的火。"},
+      {ico:"🪨", good:true, text:"<b>安稳加成：沉稳磐石</b>——他接得住你的剧烈，也稳得住你的摇晃。"},
+      {ico:"🍃", good:false, text:"<b>磨合警告：清风旅人</b>——他要自由，你要全部，注定互相拉扯。"}
+    ],
+    advice:"再爱一个人，也别把自己活成他的附属品。你的世界不该只有一个光源——先把自己点亮，火才不会烧成灰烬。"
+  },
+  HR:{
+    emoji:"🧊", name:"冰山孤狼", slogan:"不是不爱，是不习惯被人靠近", pct:"11%",
+    traits:["独立清醒","自我封闭","边界坚固","情绪不外露"],
+    love:"你把“靠自己”刻进了骨子里。你能处理好生活的一切，却处理不好亲密——对方越靠近，你越想后退；情绪一上头，你就启动“关机模式”。你不是没有感情，而是把感情锁进了很深的地方，连自己都很少去看。",
+    pros:["独立自主，冷静靠谱","不拖泥带水，不依赖他人","解决问题的能力很强"],
+    cons:["情感疏离，习惯冷处理","让伴侣长期处于“被推开”的寒冷中","脆弱时也无人可依"],
+    match:[
+      {ico:"💞", good:true, text:"<b>最佳适配：暖阳向日葵</b>——持续而不逼迫的温暖，才敲得开你的门。"},
+      {ico:"🌱", good:true, text:"<b>耐心加成：沉稳磐石</b>——他尊重边界，不会用情绪逼你就范。"},
+      {ico:"🔥", good:false, text:"<b>磨合警告：炽烈飞蛾</b>——一个追一个逃，经典的互相折磨。"}
+    ],
+    advice:"独立不等于隔绝。试着让一个人走进你的领地，让他看看冰面下的水流——天不会塌下来，你也不必永远独自扛着。"
+  },
+  HE:{
+    emoji:"🍃", name:"清风旅人", slogan:"我爱你，但我更爱自由", pct:"9%",
+    traits:["随性浪漫","热爱自由","距离产生美","拒绝束缚"],
+    love:"你是爱情里的游牧民族——会心动、会浪漫、会制造惊喜，但一旦关系开始要求“稳定”和“承诺”，你就想收拾行李上路。你相信爱应该轻盈，讨厌窒息感和道德绑架，常常在对方认真起来的时候，突然想往后退一步。",
+    pros:["有趣松弛，不黏腻","总能保持新鲜感","尊重对方的独立空间"],
+    cons:["难以深度承诺","让认真的人没有安全感","压力一来就想抽身"],
+    match:[
+      {ico:"💞", good:true, text:"<b>最佳适配：清风旅人</b>——同类最懂彼此，相爱但不捆绑。"},
+      {ico:"🌻", good:true, text:"<b>松弛加成：暖阳向日葵</b>——她温暖但不占有，让你愿意停留。"},
+      {ico:"🔥", good:false, text:"<b>磨合警告：炽烈飞蛾</b>——一个要自由，一个要全部，迟早两败俱伤。"}
+    ],
+    advice:"自由不是永远在路上，而是有一个你随时愿意回去的地方。真正的归属感，不会夺走你的风，只会给你一个可以落脚的枝头。"
+  },
+  KR:{
+    emoji:"🏰", name:"迷雾城堡", slogan:"渴望被爱，又害怕被爱看穿", pct:"8%",
+    traits:["矛盾推拉","防御心重","外冷内热","反复试探"],
+    love:"你是一座迷雾笼罩的城堡——心里盼着有人敲门，真有人来了又拉紧吊桥。你会在靠近时推开，在疏远后又失落，用理性和试探层层设防。不是你不够好，而是过去的某些经验让你相信：亲密的尽头，总是伤害。",
+    pros:["洞察力强，情感深沉","一旦真正信任便极其忠诚","头脑清醒，不易被表象迷惑"],
+    cons:["推拉反复，口是心非","让真心的人精疲力竭","把防御误当成了自我保护"],
+    match:[
+      {ico:"💞", good:true, text:"<b>最佳适配：沉稳磐石</b>——稳定、坦荡且有耐心的人，才穿得过你的迷雾。"},
+      {ico:"🌻", good:true, text:"<b>温暖加成：暖阳向日葵</b>——不带攻击性的爱，能让你放下吊桥。"},
+      {ico:"🔍", good:false, text:"<b>磨合警告：警觉侦探</b>——两个高敏感者互相试探，只会彼此消耗。"}
+    ],
+    advice:"推开不是测试，留下来的人也不该靠闯关证明爱。试着把“我怕”直接说出口，而不是让对方在迷雾里猜——能接住你脆弱的人，才配得上你的忠诚。"
+  },
+  KE:{
+    emoji:"🦔", name:"刺猬恋人", slogan:"竖起尖刺，是因为肚皮太软", pct:"7%",
+    traits:["敏感柔软","嘴硬心软","怕孤单","更怕受伤"],
+    love:"你明明渴望一个拥抱，却先竖起了满身的刺。你会说反话、会逞强，会在感动到想哭时装作无所谓。你比谁都深情，又比谁都怕这份深情被辜负，于是在“想靠近”和“想逃跑”之间反复横跳，把爱你的人挡在门外，独自难过。",
+    pros:["重情重义，内心柔软","爱得深沉且专一","有着不轻易示人的温柔"],
+    cons:["口是心非，防御性攻击","容易误伤最亲的人","越在乎，表现得越不在乎"],
+    match:[
+      {ico:"💞", good:true, text:"<b>最佳适配：暖阳向日葵</b>——温柔不扎人的拥抱，让你敢露出肚皮。"},
+      {ico:"🪨", good:true, text:"<b>安稳加成：沉稳磐石</b>——他不会被你的刺吓跑，也不跟你较劲。"},
+      {ico:"🧊", good:false, text:"<b>磨合警告：冰山孤狼</b>——两座冰山对峙，谁也不肯先融化。"}
+    ],
+    advice:"尖刺保护了你，也隔绝了爱。下次想说“我没事”的时候，试试换成“抱抱我”——真正爱你的人，不会因为你柔软就伤害你。"
+  }
+};
+
+/* ============================================================
+   状态与视图切换
+   ============================================================ */
+let answers = new Array(QUESTIONS.length).fill(null);
+let current = 0;
+
+function showView(id){
+  document.querySelectorAll(".view").forEach(v=>v.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function startQuiz(){
+  current = 0;
+  renderQuestion();
+  showView("view-quiz");
+}
+
+function renderQuestion(){
+  const q = QUESTIONS[current];
+  document.getElementById("cur-num").textContent = current+1;
+  document.getElementById("q-num").textContent = "QUESTION " + String(current+1).padStart(2,"0");
+  document.getElementById("q-text").textContent = q.t;
+  document.getElementById("answered-count").textContent = "已答 " + answers.filter(a=>a!==null).length + " 题";
+  document.getElementById("progress-fill").style.width = ((current+1)/QUESTIONS.length*100) + "%";
+
+  const optsBox = document.getElementById("opts");
+  optsBox.innerHTML = "";
+  OPTIONS.forEach((label,i)=>{
+    const div = document.createElement("div");
+    div.className = "opt" + (answers[current]===i ? " selected" : "");
+    div.innerHTML = '<span class="dot"></span><span>'+label+'</span>';
+    div.onclick = ()=>selectOption(i);
+    optsBox.appendChild(div);
+  });
+
+  document.getElementById("btn-prev").disabled = current===0;
+  const nextBtn = document.getElementById("btn-next");
+  nextBtn.textContent = current===QUESTIONS.length-1 ? "查看结果 🎁" : "下一题 →";
+  document.getElementById("hint-tip").textContent = "";
+}
+
+let autoTimer = null;
+function selectOption(i){
+  answers[current] = i;
+  renderQuestion();
+  clearTimeout(autoTimer);
+  if(current < QUESTIONS.length-1){
+    autoTimer = setTimeout(()=>{current++;renderQuestion();},320);
+  }
+}
+
+function prevQuestion(){
+  if(current>0){current--;renderQuestion();}
+}
+
+function nextQuestion(){
+  clearTimeout(autoTimer);
+  if(answers[current]===null){
+    document.getElementById("hint-tip").textContent = "请先选择一个选项再继续哦～";
+    return;
+  }
+  if(current < QUESTIONS.length-1){
+    current++;
+    renderQuestion();
+  }else{
+    const unanswered = answers.filter(a=>a===null).length;
+    if(unanswered>0){
+      document.getElementById("hint-tip").textContent = "还有 "+unanswered+" 道题未作答，答完才能生成报告～";
+      return;
+    }
+    runAnalysis();
+  }
+}
+
+/* ============================================================
+   计分
+   ============================================================ */
+function calcScores(){
+  const raw = {A:0,B:0,E:0,D:0};
+  const max = {A:0,B:0,E:0,D:0};
+  QUESTIONS.forEach((q,idx)=>{
+    let v = answers[idx]+1;                 // 1~5
+    if(q.reverse) v = 6-v;
+    raw[q.dim] += v;
+    max[q.dim] += 5;
+  });
+  const pct = {
+    A:raw.A/max.A, B:raw.B/max.B, E:raw.E/max.E, D:raw.D/max.D
+  };
+  return {raw,max,pct};
+}
+
+function levelText(p){
+  if(p<0.2) return "很低";
+  if(p<0.4) return "偏低";
+  if(p<0.6) return "中等";
+  if(p<0.8) return "偏高";
+  return "很高";
+}
+
+/* ============================================================
+   分析加载 → 渲染结果
+   ============================================================ */
+function runAnalysis(){
+  showView("view-loading");
+  const words = ["正在扫描你的依恋模式…","捕捉你心动的瞬间…","分析你的情感防御机制…","人格报告生成中…"];
+  let wi = 0;
+  const wordEl = document.getElementById("load-word");
+  wordEl.textContent = words[0];
+  const timer = setInterval(()=>{
+    wi++;
+    if(wi<words.length) wordEl.textContent = words[wi];
+  },450);
+
+  setTimeout(()=>{
+    clearInterval(timer);
+    renderResult();
+  },1900);
+}
+
+function renderResult(){
+  const {raw,max,pct} = calcScores();
+
+  // 判定人格：阈值取量表中立点（单题3分=百分制60%），超过中立点才算倾向明显
+  const highA = pct.A >= 0.6;
+  const highB = pct.B >= 0.6;
+  const highE = pct.E >= 0.6;
+  let quad;
+  if(!highA && !highB) quad="S";
+  else if(highA && !highB) quad="X";
+  else if(!highA && highB) quad="H";
+  else quad="K";
+  const key = quad + (highE ? "E" : "R");
+  const r = RESULTS[key];
+
+  // 主导倾向标签
+  const dTag = pct.D>=0.6 ? "关系主导者" : (pct.D<=0.4 ? "随和跟随者" : "节奏平衡者");
+  const attachName = {S:"安全型依恋",X:"焦虑型依恋",H:"疏离型依恋",K:"恐惧型依恋"}[quad];
+  const styleName = highE ? "感性决策" : "理性决策";
+
+  document.getElementById("r-emoji").textContent = r.emoji;
+  document.getElementById("r-name").textContent = r.name;
+  document.getElementById("r-slogan").textContent = r.slogan;
+  document.getElementById("r-pct").textContent = r.pct;
+
+  const tagBox = document.getElementById("r-tags");
+  tagBox.innerHTML =
+    '<span class="tag">'+attachName+'</span>'+
+    '<span class="tag">'+styleName+'</span>'+
+    '<span class="tag gold">'+dTag+'</span>';
+
+  document.getElementById("r-traits").innerHTML = r.traits.map(t=>'<div class="trait-chip">'+t+'</div>').join("");
+  document.getElementById("r-love").textContent = r.love;
+  document.getElementById("r-pros").innerHTML = r.pros.map(x=>"<li>"+x+"</li>").join("");
+  document.getElementById("r-cons").innerHTML = r.cons.map(x=>"<li>"+x+"</li>").join("");
+  document.getElementById("r-match").innerHTML = r.match.map(m=>
+    '<div class="match-item '+(m.good?'':'warn')+'"><span class="m-ico">'+m.ico+'</span><span>'+m.text+'</span></div>'
+  ).join("");
+  document.getElementById("r-advice").innerHTML = "<b>"+r.name+" · </b>"+r.advice;
+
+  // 分数条
+  const dimMeta = [
+    {k:"A",name:"焦虑指数"},
+    {k:"B",name:"回避指数"},
+    {k:"E",name:"感性指数"},
+    {k:"D",name:"主导指数"}
+  ];
+  document.getElementById("score-bars").innerHTML = dimMeta.map(d=>{
+    const p = Math.round(pct[d.k]*100);
+    return '<div class="score-row"><div class="score-top"><span>'+d.name+'</span>'+
+      '<span class="level">'+levelText(pct[d.k])+' · '+p+'分</span></div>'+
+      '<div class="score-track"><div class="score-fill" data-w="'+p+'"></div></div></div>';
+  }).join("");
+
+  showView("view-result");
+  drawRadar(pct);
+  requestAnimationFrame(()=>{
+    document.querySelectorAll(".score-fill").forEach(el=>{el.style.width = el.dataset.w+"%";});
+  });
+}
+
+/* ============================================================
+   Canvas 四维雷达图
+   ============================================================ */
+function drawRadar(pct){
+  const canvas = document.getElementById("radar");
+  const dpr = window.devicePixelRatio || 1;
+  const cssW = 380, cssH = 340;
+  canvas.width = cssW*dpr; canvas.height = cssH*dpr;
+  canvas.style.width = cssW+"px"; canvas.style.height = cssH+"px";
+  const ctx = canvas.getContext("2d");
+  ctx.scale(dpr,dpr);
+
+  const cx = cssW/2, cy = cssH/2+6, R = 118;
+  const labels = ["焦虑指数","回避指数","感性指数","主导指数"];
+  const vals = [pct.A,pct.B,pct.E,pct.D];
+  const n = 4;
+  const angle = i => -Math.PI/2 + i*2*Math.PI/n;
+
+  // 网格
+  for(let ring=1;ring<=4;ring++){
+    const rr = R*ring/4;
+    ctx.beginPath();
+    for(let i=0;i<n;i++){
+      const x = cx+rr*Math.cos(angle(i));
+      const y = cy+rr*Math.sin(angle(i));
+      i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+    }
+    ctx.closePath();
+    ctx.strokeStyle = "#f0d9dd";
+    ctx.lineWidth = 1;
+    ctx.stroke();
+  }
+  // 轴线
+  for(let i=0;i<n;i++){
+    ctx.beginPath();
+    ctx.moveTo(cx,cy);
+    ctx.lineTo(cx+R*Math.cos(angle(i)),cy+R*Math.sin(angle(i)));
+    ctx.strokeStyle = "#f0d9dd";
+    ctx.stroke();
+  }
+  // 数据多边形
+  ctx.beginPath();
+  vals.forEach((v,i)=>{
+    const rr = R*v;
+    const x = cx+rr*Math.cos(angle(i));
+    const y = cy+rr*Math.sin(angle(i));
+    i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+  });
+  ctx.closePath();
+  const grad = ctx.createLinearGradient(0,cy-R,0,cy+R);
+  grad.addColorStop(0,"rgba(226,84,110,.35)");
+  grad.addColorStop(1,"rgba(217,154,78,.25)");
+  ctx.fillStyle = grad;
+  ctx.fill();
+  ctx.strokeStyle = "#e2546e";
+  ctx.lineWidth = 2;
+  ctx.stroke();
+  // 数据点
+  vals.forEach((v,i)=>{
+    const x = cx+R*v*Math.cos(angle(i));
+    const y = cy+R*v*Math.sin(angle(i));
+    ctx.beginPath();
+    ctx.arc(x,y,4,0,Math.PI*2);
+    ctx.fillStyle = "#c23a58";
+    ctx.fill();
+    ctx.fillStyle = "#fff";
+    ctx.beginPath();
+    ctx.arc(x,y,1.8,0,Math.PI*2);
+    ctx.fill();
+  });
+  // 标签
+  ctx.fillStyle = "#7a656d";
+  ctx.font = "600 13px PingFang SC, Microsoft YaHei, sans-serif";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  labels.forEach((lab,i)=>{
+    const lr = R+26;
+    const x = cx+lr*Math.cos(angle(i));
+    const y = cy+lr*Math.sin(angle(i));
+    ctx.fillText(lab,x,y);
+  });
+}
+
+/* ============================================================
+   重新测试
+   ============================================================ */
+function restart(){
+  answers = new Array(QUESTIONS.length).fill(null);
+  current = 0;
+  showView("view-start");
+}
+</script>
+</body>
+</html>
